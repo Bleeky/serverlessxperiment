@@ -16,6 +16,7 @@
     "aws-sdk": "^2.589.0",
     "babel-eslint": "^10.0.3",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
     "serverless-bundle": "^1.2.5",
     "serverless-dotenv-plugin": "^2.1.1",
     "serverless-offline": "^5.3.3"

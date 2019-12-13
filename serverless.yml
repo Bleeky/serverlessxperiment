@@ -9,6 +9,13 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
 
+custom:
+  bundle:
+    sourcemaps: true      # Enable source maps
+    caching: true         # Enable Webpack caching
+    stats: false          # Don't print out any Webpack output
+    linting: false         # Enable linting as a part of the build process
+
 provider:
   name: aws
   runtime: nodejs10.x

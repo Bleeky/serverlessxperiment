@@ -1,15 +1,18 @@
 module.exports = {
-    root: true,
-    parserOptions: {
-      sourceType: 'module',
-      parser: 'babel-eslint'
+    "env": {
+      "browser": false,
+      "es6": true,
+      "node": true
     },
-    env: {
-      browser: true,
-    },
+    parser: 'babel-eslint',
     extends: ['airbnb-base'],
+    'settings': {
+      'import/resolver': {
+        "babel-module": {}
+      }
+    },
     'rules': {
       "no-plusplus": 0,
     }
-  }
+}
   
