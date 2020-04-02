@@ -8,6 +8,8 @@ Resources:
           AttributeType: S
         - AttributeName: cardId
           AttributeType: S
+        - AttributeName: createdAt
+          AttributeType: N
       KeySchema:
         - AttributeName: userId
           KeyType: HASH
@@ -15,3 +17,12 @@ Resources:
           KeyType: RANGE
       # Set the capacity to auto-scale
       BillingMode: PAY_PER_REQUEST
+      GlobalSecondaryIndexes:
+        - IndexName: userId-createdAt-index
+          KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
+          Projection:
+            ProjectionType: ALL

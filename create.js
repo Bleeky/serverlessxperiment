@@ -9,8 +9,10 @@ export async function main(event, context) {
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
       cardId: uuid.v1(),
-      content: data.content,
-      attachment: data.attachment,
+      name: data.name,
+      type: data.type,
+      abilities: data.abilities,
+      image: data.image,
       createdAt: Date.now(),
     },
   };
@@ -19,7 +21,6 @@ export async function main(event, context) {
     await dynamoDbLib.call('put', params);
     return success(params.Item);
   } catch (e) {
-    console.error(e);
-    return failure({ status: false });
+    return failure({ status: false, error: e });
   }
 }
