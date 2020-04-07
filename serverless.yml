@@ -27,8 +27,8 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: eu-central-1
-  deploymentBucket:
-    name: cards-upload
+  # deploymentBucket:
+  #   name: cards-uploads
   
   environment:
     tableName: ${self:custom.tableName}
@@ -54,6 +54,10 @@ provider:
         - dynamodb:Query
         - dynamodb:Scan
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.tableName}/index/*"
+    - Effect: 'Allow'
+      Action:
+        - 's3:*'
+      Resource: "arn:aws:s3:::cards-uploads-dev/*"
 
 functions:
   # Defines an HTTP API endpoint that calls the main function in create.js
@@ -90,6 +94,14 @@ functions:
       - http:
           path: cards
           method: get
+          cors: true
+          authorizer: aws_iam
+  getSignedURL:
+    handler: getSignedURL.main
+    events:
+      - http:
+          path: signedURL
+          method: post
           cors: true
           authorizer: aws_iam
 

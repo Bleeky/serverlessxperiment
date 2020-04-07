@@ -10,7 +10,7 @@ export async function main(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       cardId: uuid.v1(),
       name: data.name,
-      type: data.type,
+      types: data.types,
       abilities: data.abilities,
       image: data.image,
       createdAt: Date.now(),

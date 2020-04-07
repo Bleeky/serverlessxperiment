@@ -2,16 +2,19 @@ import * as dynamoDbLib from './libs/dynamodb-lib';
 import { success, failure } from './libs/response-lib';
 
 export async function main(event, context) {
+  let from = {};
+  Object.keys(event.queryStringParameters || {}).forEach((key) => {
+    if (key.includes('from-')) {
+      if (key.split('-')[2] === 'n') from = { ...from, [key.split('-')[1]]: parseInt(event.queryStringParameters[key], 10) };
+      else from = { ...from, [key.split('-')[1]]: event.queryStringParameters[key] };
+    }
+  });
   const params = {
     TableName: process.env.tableName,
-    // 'KeyConditionExpression' defines the condition for the query
-    // - 'userId = :userId': only return items with matching 'userId'
-    //   partition key
-    // 'ExpressionAttributeValues' defines the value in the condition
-    // - ':userId': defines 'userId' to be Identity Pool identity id
-    //   of the authenticated user
     KeyConditionExpression: 'userId = :userId',
     IndexName: 'userId-createdAt-index',
+    Limit: event.queryStringParameters && event.queryStringParameters.lim || null,
+    ExclusiveStartKey: Object.keys(from).length ? from : null,
     ScanIndexForward: false,
     ExpressionAttributeValues: {
       ':userId': event.requestContext.identity.cognitoIdentityId,
@@ -20,8 +23,12 @@ export async function main(event, context) {
 
   try {
     const result = await dynamoDbLib.call('query', params);
-    // Return the matching list of items in response body
-    return success(result.Items);
+    return success({
+      cards: result.Items,
+      total: result.ScannedCount,
+      queryTotal: result.Count,
+      next: result.LastEvaluatedKey,
+    });
   } catch (e) {
     return failure({ status: false, error: e });
   }
