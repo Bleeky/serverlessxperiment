@@ -13,7 +13,7 @@ export async function main(event, context) {
     TableName: process.env.tableName,
     KeyConditionExpression: 'userId = :userId',
     IndexName: 'userId-createdAt-index',
-    Limit: event.queryStringParameters && event.queryStringParameters.lim || null,
+    Limit: (event.queryStringParameters && event.queryStringParameters.lim) || null,
     ExclusiveStartKey: Object.keys(from).length ? from : null,
     ScanIndexForward: false,
     ExpressionAttributeValues: {
