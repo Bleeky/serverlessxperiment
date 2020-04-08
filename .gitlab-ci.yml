@@ -12,6 +12,9 @@ production:
     - npm install -g serverless
   script:
     - serverless deploy --stage production --verbose
+  artifacts:
+    paths:
+    - .serverless
   environment: production
 
 production:
@@ -23,4 +26,7 @@ production:
     - npm install -g serverless
   script:
     - serverless deploy --stage dev --verbose
+  artifacts:
+    paths:
+    - .serverless
   environment: development
