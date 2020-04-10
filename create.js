@@ -4,14 +4,15 @@ import { success, failure } from './libs/response-lib';
 
 export async function main(event) {
   const data = JSON.parse(event.body);
+  const cardId = uuid.v1();
   const params = {
     TableName: process.env.tableName,
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
-      cardId: uuid.v1(),
+      cardId,
       name: data.name,
       types: data.types,
-      abilities: data.abilities,
+      abilities: data.abilities.map((ability) => ({ ...ability, cardId })),
       image: data.image,
       createdAt: Date.now(),
     },

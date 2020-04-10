@@ -6,13 +6,19 @@ stages:
 production:
   stage: deploy
   only:
+      refs:
       - master
+      variables:
+      - $CI_COMMIT_MESSAGE =~ /[deploy]/
   before_script:
     # - npm config set prefix /usr/local
     - npm install
     - npm install -g serverless
   script:
     - serverless deploy --stage production --verbose
+  cache:
+     paths:
+       - node_modules/
   artifacts:
     paths:
     - .serverless
@@ -21,13 +27,19 @@ production:
 production:
   stage: deploy
   only:
+      refs:
       - dev
+      variables:
+      - $CI_COMMIT_MESSAGE =~ /[deploy]/
   before_script:
     # - npm config set prefix /usr/local
     - npm install
     - npm install -g serverless
   script:
     - serverless deploy --stage dev --verbose
+  cache:
+     paths:
+       - node_modules/
   artifacts:
     paths:
     - .serverless
