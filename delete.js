@@ -12,7 +12,7 @@ export async function main(event, context) {
 
 
   try {
-    await dynamoDbLib.delete(params);
+    await dynamoDbLib.call('delete', params);
     return success({ status: true });
   } catch (e) {
     return failure({ status: false, error: e });
