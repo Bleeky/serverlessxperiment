@@ -7,9 +7,9 @@ production:
   stage: deploy
   only:
       refs:
-      - master
+        - master
       variables:
-      - $CI_COMMIT_MESSAGE =~ /[deploy]/
+        - $CI_COMMIT_MESSAGE =~ /trigger ci/
   before_script:
     # - npm config set prefix /usr/local
     - npm install
@@ -28,9 +28,9 @@ production:
   stage: deploy
   only:
       refs:
-      - dev
+        - dev
       variables:
-      - $CI_COMMIT_MESSAGE =~ /[deploy]/
+        - $CI_COMMIT_MESSAGE =~ /trigger ci/
   before_script:
     # - npm config set prefix /usr/local
     - npm install
